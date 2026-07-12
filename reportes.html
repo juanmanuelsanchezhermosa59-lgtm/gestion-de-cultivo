@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reportes | Gestión de Cultivo de Arroz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="reportes.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">🌾 ArrozGestión</div>
+    <div class="sidebar-finca" id="nombreFinca">Cargando finca...</div>
+
+    <a class="nav-item" href="lotes.html"><span class="nav-icon">▦</span> Lotes</a>
+    <a class="nav-item" href="labores.html"><span class="nav-icon">📋</span> Labores</a>
+    <a class="nav-item" href="insumos.html"><span class="nav-icon">🌱</span> Insumos</a>
+    <a class="nav-item" href="cosechas.html"><span class="nav-icon">📦</span> Cosechas</a>
+    <a class="nav-item active"><span class="nav-icon">📊</span> Reportes</a>
+
+    <div class="sidebar-footer">
+      <div>v1.0 · Módulo de Reportes</div>
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="titulo-eyebrow">Rentabilidad</div>
+      <h1>Reportes por lote</h1>
+    </div>
+
+    <div class="resumen">
+      <div class="resumen-card">
+        <div class="resumen-label">Hectáreas en operación</div>
+        <div class="resumen-valor" id="resHectareas">0 ha</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Ingreso total</div>
+        <div class="resumen-valor" id="resIngreso" style="font-size:20px;">$0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Costo total de labores</div>
+        <div class="resumen-valor" id="resCosto" style="font-size:20px;">$0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Utilidad neta</div>
+        <div class="resumen-valor" id="resUtilidad" style="font-size:20px;">$0</div>
+      </div>
+    </div>
+
+    <div class="seccion-titulo">Rentabilidad por lote</div>
+
+    <div class="lotes-rentabilidad" id="lotesRentabilidad"></div>
+
+    <div class="vacio" id="vacioMsg" style="display:none;">
+      <div class="vacio-titulo">Todavía no hay datos suficientes</div>
+      <div>Registra lotes, labores y cosechas para ver aquí el reporte de rentabilidad.</div>
+    </div>
+  </main>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="reportes.js"></script>
+</body>
+</html>

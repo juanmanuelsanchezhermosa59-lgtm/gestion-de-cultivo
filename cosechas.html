@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosechas | Gestión de Cultivo de Arroz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cosechas.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">🌾 ArrozGestión</div>
+    <div class="sidebar-finca" id="nombreFinca">Cargando finca...</div>
+
+    <a class="nav-item" href="lotes.html"><span class="nav-icon">▦</span> Lotes</a>
+    <a class="nav-item" href="labores.html"><span class="nav-icon">📋</span> Labores</a>
+    <a class="nav-item" href="insumos.html"><span class="nav-icon">🌱</span> Insumos</a>
+    <a class="nav-item active"><span class="nav-icon">📦</span> Cosechas</a>
+    <a class="nav-item" href="reportes.html"><span class="nav-icon">📊</span> Reportes</a>
+
+    <div class="sidebar-footer">
+      <div>v1.0 · Módulo de Cosechas</div>
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="titulo-eyebrow">Ventas y rentabilidad</div>
+        <h1>Cosechas</h1>
+      </div>
+      <button class="btn btn-primario" onclick="abrirModal()">+ Registrar cosecha</button>
+    </div>
+
+    <div class="resumen">
+      <div class="resumen-card">
+        <div class="resumen-label">Total cosechado</div>
+        <div class="resumen-valor" id="resKg" style="font-size:20px;">0 kg</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Ingreso total</div>
+        <div class="resumen-valor" id="resIngreso" style="font-size:18px;">$0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Costo de labores</div>
+        <div class="resumen-valor" id="resCosto" style="font-size:18px;">$0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Utilidad neta</div>
+        <div class="resumen-valor" id="resUtilidad" style="font-size:18px;">$0</div>
+      </div>
+    </div>
+
+    <div class="filtros">
+      <select id="filtroLote">
+        <option value="">Todos los lotes</option>
+      </select>
+    </div>
+
+    <div class="tabla-wrap" id="tablaWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Lote</th>
+            <th>Cantidad</th>
+            <th>Precio/kg</th>
+            <th>Ingreso</th>
+            <th>Calidad</th>
+            <th>Humedad</th>
+            <th>Comprador</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="cosechasBody"></tbody>
+      </table>
+    </div>
+
+    <div class="vacio" id="vacioMsg" style="display:none;">
+      <div class="vacio-titulo">No hay cosechas registradas</div>
+      <div>Registra tu primera venta de cosecha para calcular la rentabilidad del ciclo.</div>
+    </div>
+  </main>
+
+  <!-- MODAL: crear/editar cosecha -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2 id="modalTitulo">Registrar cosecha</h2>
+      <div class="nota-calculo">
+        La <strong>utilidad neta</strong> se calcula automáticamente restando el costo acumulado de labores del lote al ingreso de la venta. No necesitas calcularlo tú.
+      </div>
+      <form id="formCosecha">
+        <input type="hidden" id="cosechaId">
+
+        <div class="campo">
+          <label>Lote</label>
+          <select id="lote_id" required>
+            <option value="">Selecciona un lote...</option>
+          </select>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Fecha de cosecha</label>
+            <input type="date" id="fecha" required>
+          </div>
+          <div class="campo">
+            <label>Cantidad (kg)</label>
+            <input type="number" id="cantidad_kg" min="0" step="1" required>
+          </div>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Precio de venta (COP/kg)</label>
+            <input type="number" id="precio_venta_kg" min="0" step="10" required>
+          </div>
+          <div class="campo">
+            <label>Humedad (%)</label>
+            <input type="number" id="humedad" min="0" max="100" step="0.1">
+          </div>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Calidad</label>
+            <select id="calidad">
+              <option value="primera">Primera</option>
+              <option value="segunda">Segunda</option>
+              <option value="descarte">Descarte</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Comprador</label>
+            <input type="text" id="comprador" placeholder="Ej: Molino El Progreso">
+          </div>
+        </div>
+
+        <div class="modal-acciones">
+          <button type="button" class="btn btn-secundario" onclick="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primario">Guardar cosecha</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="cosechas.js"></script>
+</body>
+</html>

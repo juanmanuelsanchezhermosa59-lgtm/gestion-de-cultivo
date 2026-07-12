@@ -1,0 +1,170 @@
+:root{
+  --verde-tallo: #1F4D36;
+  --verde-tallo-dark: #163826;
+  --dorado-grano: #C9A227;
+  --dorado-grano-light: #E4C860;
+  --tierra: #7A5230;
+  --marfil: #EEF0E7;
+  --marfil-alto: #F7F8F3;
+  --carbon: #22251F;
+  --carbon-suave: #565A4E;
+  --linea: #D8DBCC;
+  --rojo-alerta: #A6432E;
+  --radio: 10px;
+  --sombra: 0 2px 10px rgba(34,37,31,0.06);
+  --sombra-alta: 0 12px 32px rgba(34,37,31,0.14);
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  font-family:'Inter', sans-serif;
+  background:var(--marfil);
+  color:var(--carbon);
+  min-height:100vh;
+}
+
+.topbar{
+  background:var(--verde-tallo-dark);
+  color:var(--marfil-alto);
+  padding:20px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.topbar-brand{
+  font-family:'Roboto Slab', serif;
+  font-size:19px;
+  font-weight:600;
+}
+.topbar-brand span{ color:var(--dorado-grano-light); font-family:'IBM Plex Mono', monospace; font-size:12px; margin-left:10px; }
+
+.main{ max-width:1160px; margin:0 auto; padding:36px 40px; }
+
+.titulo-eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--tierra);
+  margin-bottom:6px;
+}
+h1{
+  font-family:'Roboto Slab', serif;
+  font-size:28px;
+  font-weight:600;
+  color:var(--verde-tallo-dark);
+  margin-bottom:28px;
+}
+
+.resumen{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:16px;
+  margin-bottom:32px;
+}
+.resumen-card{
+  background:var(--marfil-alto);
+  border:1px solid var(--linea);
+  border-radius:var(--radio);
+  padding:18px 20px;
+}
+.resumen-label{
+  font-size:12px;
+  color:var(--carbon-suave);
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+.resumen-valor{
+  font-family:'Roboto Slab', serif;
+  font-size:26px;
+  font-weight:600;
+  color:var(--verde-tallo-dark);
+  margin-top:4px;
+}
+
+.tabla-wrap{
+  background:var(--marfil-alto);
+  border:1px solid var(--linea);
+  border-radius:var(--radio);
+  overflow:hidden;
+  box-shadow:var(--sombra);
+}
+table{ width:100%; border-collapse:collapse; }
+thead{ background:var(--verde-tallo-dark); }
+thead th{
+  color:var(--marfil-alto);
+  font-size:11.5px;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  font-weight:600;
+  text-align:left;
+  padding:13px 16px;
+}
+tbody tr{ border-bottom:1px solid var(--linea); }
+tbody tr:last-child{ border-bottom:none; }
+tbody tr:hover{ background:var(--marfil); }
+tbody td{ padding:13px 16px; font-size:13.5px; }
+.td-slug{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--carbon-suave); }
+.td-fecha{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--carbon-suave); white-space:nowrap; }
+
+.plan-select{
+  padding:6px 10px;
+  border:1.5px solid var(--linea);
+  border-radius:6px;
+  font-size:12.5px;
+  font-family:'Inter', sans-serif;
+  background:#fff;
+}
+
+.badge{
+  display:inline-block;
+  font-size:10.5px;
+  font-weight:700;
+  padding:3px 9px;
+  border-radius:20px;
+  text-transform:uppercase;
+}
+.badge-activa{ background:rgba(31,77,54,0.12); color:var(--verde-tallo); }
+.badge-suspendida{ background:rgba(166,67,46,0.12); color:var(--rojo-alerta); }
+
+.icon-btn{
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:14px;
+  color:var(--carbon-suave);
+  padding:4px 8px;
+  border-radius:6px;
+}
+.icon-btn:hover{ background:var(--marfil); color:var(--verde-tallo); }
+
+.acceso-denegado{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  text-align:center;
+  padding:20px;
+}
+.acceso-denegado-box{
+  background:var(--marfil-alto);
+  border-radius:var(--radio);
+  padding:40px;
+  max-width:400px;
+  box-shadow:var(--sombra-alta);
+}
+.acceso-denegado-box h2{
+  font-family:'Roboto Slab', serif;
+  color:var(--rojo-alerta);
+  margin-bottom:10px;
+}
+
+.vacio{ text-align:center; padding:60px 20px; color:var(--carbon-suave); }
+
+@media (max-width: 780px){
+  .main{ padding:24px; }
+  .resumen{ grid-template-columns:1fr 1fr; }
+  .tabla-wrap{ overflow-x:auto; }
+  table{ min-width:680px; }
+}

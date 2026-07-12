@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Super-Admin | ArrozGestión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="superadmin.css">
+</head>
+<body>
+
+  <div id="cargando" style="text-align:center; padding:60px;">Verificando acceso...</div>
+
+  <div class="acceso-denegado" id="accesoDenegado" style="display:none;">
+    <div class="acceso-denegado-box">
+      <h2>Acceso restringido</h2>
+      <p>Este panel es solo para el administrador de la plataforma. Inicia sesión con una cuenta autorizada.</p>
+    </div>
+  </div>
+
+  <div id="panelSuperAdmin" style="display:none;">
+    <div class="topbar">
+      <div class="topbar-brand">🌾 ArrozGestión <span>PANEL SUPER-ADMIN</span></div>
+    </div>
+
+    <div class="main">
+      <div class="titulo-eyebrow">Plataforma</div>
+      <h1>Fincas registradas</h1>
+
+      <div class="resumen">
+        <div class="resumen-card">
+          <div class="resumen-label">Total de fincas</div>
+          <div class="resumen-valor" id="resTotal">0</div>
+        </div>
+        <div class="resumen-card">
+          <div class="resumen-label">Activas</div>
+          <div class="resumen-valor" id="resActivas">0</div>
+        </div>
+        <div class="resumen-card">
+          <div class="resumen-label">En trial</div>
+          <div class="resumen-valor" id="resTrial">0</div>
+        </div>
+        <div class="resumen-card">
+          <div class="resumen-label">Con plan pago</div>
+          <div class="resumen-valor" id="resPagando">0</div>
+        </div>
+      </div>
+
+      <div class="tabla-wrap" id="tablaWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Finca</th>
+              <th>Slug</th>
+              <th>Propietario</th>
+              <th>Ubicación</th>
+              <th>Plan</th>
+              <th>Registrada</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tenantsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="vacio" id="vacioMsg" style="display:none;">
+        Todavía no hay fincas registradas en la plataforma.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="superadmin.js"></script>
+</body>
+</html>

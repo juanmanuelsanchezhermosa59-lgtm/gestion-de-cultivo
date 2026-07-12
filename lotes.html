@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lotes | Gestión de Cultivo de Arroz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lotes.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">🌾 ArrozGestión</div>
+    <div class="sidebar-finca" id="nombreFinca">Cargando finca...</div>
+
+    <a class="nav-item active"><span class="nav-icon">▦</span> Lotes</a>
+    <a class="nav-item" href="labores.html"><span class="nav-icon">📋</span> Labores</a>
+    <a class="nav-item" href="insumos.html"><span class="nav-icon">🌱</span> Insumos</a>
+    <a class="nav-item" href="cosechas.html"><span class="nav-icon">📦</span> Cosechas</a>
+    <a class="nav-item" href="reportes.html"><span class="nav-icon">📊</span> Reportes</a>
+
+    <div class="sidebar-footer">
+      <div>v1.0 · Módulo de Lotes</div>
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="titulo-eyebrow">Gestión de cultivo</div>
+        <h1>Lotes de siembra</h1>
+      </div>
+      <button class="btn btn-primario" onclick="abrirModal()">+ Registrar lote</button>
+    </div>
+
+    <div class="resumen">
+      <div class="resumen-card">
+        <div class="resumen-label">Lotes activos</div>
+        <div class="resumen-valor" id="resActivos">0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Hectáreas totales</div>
+        <div class="resumen-valor" id="resHectareas">0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Próxima cosecha</div>
+        <div class="resumen-valor" id="resProxima" style="font-size:16px;">—</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Cosechados este ciclo</div>
+        <div class="resumen-valor" id="resCosechados">0</div>
+      </div>
+    </div>
+
+    <div class="lotes-grid" id="lotesGrid"></div>
+    <div class="vacio" id="vacioMsg" style="display:none;">
+      <div class="vacio-titulo">Todavía no hay lotes registrados</div>
+      <div>Registra tu primer lote para empezar a hacerle seguimiento al ciclo del cultivo.</div>
+    </div>
+  </main>
+
+  <!-- MODAL: crear/editar lote -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2 id="modalTitulo">Registrar lote</h2>
+      <form id="formLote">
+        <input type="hidden" id="loteId">
+        <div class="campo">
+          <label>Nombre del lote</label>
+          <input type="text" id="nombre" placeholder="Ej: Lote Norte" required>
+        </div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Área (hectáreas)</label>
+            <input type="number" id="area_ha" step="0.1" min="0" required>
+          </div>
+          <div class="campo">
+            <label>Variedad</label>
+            <select id="variedad" required>
+              <option value="">Selecciona...</option>
+              <option value="F60">F60 (ciclo 120 días)</option>
+              <option value="F2000">F2000 (ciclo 125 días)</option>
+              <option value="Fedearroz 733">Fedearroz 733 (ciclo 115 días)</option>
+              <option value="Fedearroz 70">Fedearroz 70 (ciclo 130 días)</option>
+              <option value="otra">Otra</option>
+            </select>
+          </div>
+        </div>
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Fecha de siembra</label>
+            <input type="date" id="fecha_siembra" required>
+          </div>
+          <div class="campo">
+            <label>Ciclo (días)</label>
+            <input type="number" id="ciclo_dias" min="90" max="160" value="120" required>
+          </div>
+        </div>
+        <div class="campo">
+          <label>Estado</label>
+          <select id="estado">
+            <option value="activo">Activo</option>
+            <option value="cosechado">Cosechado</option>
+          </select>
+        </div>
+        <div class="modal-acciones">
+          <button type="button" class="btn btn-secundario" onclick="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primario">Guardar lote</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="lotes.js"></script>
+</body>
+</html>

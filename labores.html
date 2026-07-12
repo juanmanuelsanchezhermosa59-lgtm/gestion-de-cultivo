@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Labores | Gestión de Cultivo de Arroz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="labores.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">🌾 ArrozGestión</div>
+    <div class="sidebar-finca" id="nombreFinca">Cargando finca...</div>
+
+    <a class="nav-item" href="lotes.html"><span class="nav-icon">▦</span> Lotes</a>
+    <a class="nav-item active"><span class="nav-icon">📋</span> Labores</a>
+    <a class="nav-item" href="insumos.html"><span class="nav-icon">🌱</span> Insumos</a>
+    <a class="nav-item" href="cosechas.html"><span class="nav-icon">📦</span> Cosechas</a>
+    <a class="nav-item" href="reportes.html"><span class="nav-icon">📊</span> Reportes</a>
+
+    <div class="sidebar-footer">
+      <div>v1.0 · Módulo de Labores</div>
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="titulo-eyebrow">Bitácora de campo</div>
+        <h1>Labores</h1>
+      </div>
+      <button class="btn btn-primario" onclick="abrirModal()">+ Registrar labor</button>
+    </div>
+
+    <div class="resumen">
+      <div class="resumen-card">
+        <div class="resumen-label">Labores mostradas</div>
+        <div class="resumen-valor" id="resTotal">0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Labores este mes</div>
+        <div class="resumen-valor" id="resMes">0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Costo del mes</div>
+        <div class="resumen-valor" id="resCostoMes" style="font-size:20px;">$0</div>
+      </div>
+    </div>
+
+    <div class="filtros">
+      <select id="filtroLote">
+        <option value="">Todos los lotes</option>
+      </select>
+      <select id="filtroTipo">
+        <option value="">Todos los tipos</option>
+        <option value="riego">Riego</option>
+        <option value="fertilizacion">Fertilización</option>
+        <option value="fumigacion">Fumigación</option>
+        <option value="control_plagas">Control de plagas</option>
+        <option value="deshierbe">Deshierbe</option>
+        <option value="otra">Otra</option>
+      </select>
+    </div>
+
+    <div class="tabla-wrap" id="tablaWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Lote</th>
+            <th>Tipo</th>
+            <th>Insumo / Cantidad</th>
+            <th>Costo</th>
+            <th>Responsable</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="laboresBody"></tbody>
+      </table>
+    </div>
+
+    <div class="vacio" id="vacioMsg" style="display:none;">
+      <div class="vacio-titulo">No hay labores registradas</div>
+      <div>Registra la primera labor de campo para empezar a llevar la bitácora.</div>
+    </div>
+  </main>
+
+  <!-- MODAL: crear/editar labor -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2 id="modalTitulo">Registrar labor</h2>
+      <form id="formLabor">
+        <input type="hidden" id="laborId">
+
+        <div class="campo">
+          <label>Lote</label>
+          <select id="lote_id" required>
+            <option value="">Selecciona un lote...</option>
+          </select>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Tipo de labor</label>
+            <select id="tipo" required>
+              <option value="">Selecciona...</option>
+              <option value="riego">Riego</option>
+              <option value="fertilizacion">Fertilización</option>
+              <option value="fumigacion">Fumigación</option>
+              <option value="control_plagas">Control de plagas</option>
+              <option value="deshierbe">Deshierbe</option>
+              <option value="otra">Otra</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Fecha</label>
+            <input type="date" id="fecha" required>
+          </div>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Insumo usado</label>
+            <input type="text" id="insumo_usado" placeholder="Ej: Urea, Karate, etc.">
+          </div>
+          <div class="campo">
+            <label>Cantidad</label>
+            <input type="text" id="cantidad" placeholder="Ej: 50 kg, 2 L">
+          </div>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Costo (COP)</label>
+            <input type="number" id="costo" min="0" step="1000" required>
+          </div>
+          <div class="campo">
+            <label>Responsable</label>
+            <input type="text" id="responsable" placeholder="Nombre del encargado">
+          </div>
+        </div>
+
+        <div class="campo">
+          <label>Notas</label>
+          <textarea id="notas" placeholder="Observaciones adicionales (opcional)"></textarea>
+        </div>
+
+        <div class="modal-acciones">
+          <button type="button" class="btn btn-secundario" onclick="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primario">Guardar labor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="labores.js"></script>
+</body>
+</html>

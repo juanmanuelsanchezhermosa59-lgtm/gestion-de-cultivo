@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insumos | Gestión de Cultivo de Arroz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="insumos.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">🌾 ArrozGestión</div>
+    <div class="sidebar-finca" id="nombreFinca">Cargando finca...</div>
+
+    <a class="nav-item" href="lotes.html"><span class="nav-icon">▦</span> Lotes</a>
+    <a class="nav-item" href="labores.html"><span class="nav-icon">📋</span> Labores</a>
+    <a class="nav-item active"><span class="nav-icon">🌱</span> Insumos</a>
+    <a class="nav-item" href="cosechas.html"><span class="nav-icon">📦</span> Cosechas</a>
+    <a class="nav-item" href="reportes.html"><span class="nav-icon">📊</span> Reportes</a>
+
+    <div class="sidebar-footer">
+      <div>v1.0 · Módulo de Insumos</div>
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="titulo-eyebrow">Inventario</div>
+        <h1>Insumos</h1>
+      </div>
+      <button class="btn btn-primario" onclick="abrirModal()">+ Registrar insumo</button>
+    </div>
+
+    <div class="resumen">
+      <div class="resumen-card">
+        <div class="resumen-label">Insumos registrados</div>
+        <div class="resumen-valor" id="resTotal">0</div>
+      </div>
+      <div class="resumen-card alerta">
+        <div class="resumen-label">Con stock bajo</div>
+        <div class="resumen-valor" id="resBajos">0</div>
+      </div>
+      <div class="resumen-card">
+        <div class="resumen-label">Valor total del inventario</div>
+        <div class="resumen-valor" id="resValor" style="font-size:20px;">$0</div>
+      </div>
+    </div>
+
+    <div class="filtros">
+      <select id="filtroCategoria">
+        <option value="">Todas las categorías</option>
+        <option value="semilla">Semilla</option>
+        <option value="fertilizante">Fertilizante</option>
+        <option value="agroquimico">Agroquímico</option>
+        <option value="otro">Otro</option>
+      </select>
+    </div>
+
+    <div class="insumos-grid" id="insumosGrid"></div>
+    <div class="vacio" id="vacioMsg" style="display:none;">
+      <div class="vacio-titulo">No hay insumos registrados</div>
+      <div>Registra semilla, fertilizantes o agroquímicos para llevar control del inventario.</div>
+    </div>
+  </main>
+
+  <!-- MODAL: crear/editar insumo -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2 id="modalTitulo">Registrar insumo</h2>
+      <form id="formInsumo">
+        <input type="hidden" id="insumoId">
+
+        <div class="campo">
+          <label>Nombre</label>
+          <input type="text" id="nombre" placeholder="Ej: Urea, Karate, Semilla F60" required>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Categoría</label>
+            <select id="categoria" required>
+              <option value="">Selecciona...</option>
+              <option value="semilla">Semilla</option>
+              <option value="fertilizante">Fertilizante</option>
+              <option value="agroquimico">Agroquímico</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label>Unidad</label>
+            <input type="text" id="unidad" placeholder="Ej: kg, L, bulto" required>
+          </div>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Stock actual</label>
+            <input type="number" id="stock" min="0" step="0.1" required>
+          </div>
+          <div class="campo">
+            <label>Stock mínimo (alerta)</label>
+            <input type="number" id="stock_minimo" min="0" step="0.1" value="0">
+          </div>
+        </div>
+
+        <div class="campo-grupo">
+          <div class="campo">
+            <label>Costo unitario (COP)</label>
+            <input type="number" id="costo_unitario" min="0" step="100" required>
+          </div>
+          <div class="campo">
+            <label>Proveedor</label>
+            <input type="text" id="proveedor" placeholder="Nombre del proveedor">
+          </div>
+        </div>
+
+        <div class="modal-acciones">
+          <button type="button" class="btn btn-secundario" onclick="cerrarModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primario">Guardar insumo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="insumos.js"></script>
+</body>
+</html>

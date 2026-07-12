@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar sesión | ArrozGestión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+  <div class="login-card">
+    <span class="login-eyebrow">🌾 ArrozGestión</span>
+    <h1>Inicia sesión</h1>
+    <div class="subtitulo">Entra a gestionar los lotes, labores y cosechas de tu finca.</div>
+
+    <div class="mensaje-error" id="mensajeError"></div>
+    <div class="mensaje-exito" id="mensajeExito"></div>
+
+    <form id="formLogin">
+      <div class="campo">
+        <label>Correo electrónico</label>
+        <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+      </div>
+
+      <div class="campo">
+        <label>Contraseña</label>
+        <input type="password" id="password" placeholder="Tu contraseña" required>
+      </div>
+
+      <a class="link-olvide" id="linkOlvide">¿Olvidaste tu contraseña?</a>
+
+      <button type="submit" class="btn-login" id="btnLogin">Ingresar</button>
+    </form>
+
+    <div class="pie-login">¿Todavía no tienes finca registrada? <a href="registro.html">Regístrala aquí</a></div>
+  </div>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="login.js"></script>
+</body>
+</html>
