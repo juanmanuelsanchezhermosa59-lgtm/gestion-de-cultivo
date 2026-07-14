@@ -28,6 +28,7 @@ const tenantRef = db.collection('tenants').doc(TENANT_SLUG);
 
 let insumosCache = [];
 let filtroCategoria = '';
+let whatsappNumero = null;
 
 const CATEGORIAS = {
   semilla: 'Semilla',
@@ -82,7 +83,11 @@ function renderInsumos() {
         </div>
       </div>
 
-      ${stockBajo ? `<span class="badge-alerta">⚠ Stock bajo (mínimo: ${insumo.stock_minimo} ${insumo.unidad})</span>` : ''}
+      ${stockBajo ? `
+        <span class="badge-alerta">⚠ Stock bajo (mínimo: ${insumo.stock_minimo} ${insumo.unidad})</span>
+        <br>
+        <button class="btn-wsp" onclick="avisarStockBajo('${insumo.nombre.replace(/'/g, "\\'")}', ${insumo.stock}, '${insumo.unidad}')">📲 Avisar</button>
+      ` : ''}
 
       <div class="insumo-datos">
         <span>Costo unit.: <strong>${formatearCOP(insumo.costo_unitario)}</strong></span>
@@ -118,6 +123,7 @@ function iniciarEscucha() {
 
   tenantRef.get().then(doc => {
     document.getElementById('nombreFinca').textContent = doc.exists ? (doc.data().nombre || TENANT_SLUG) : TENANT_SLUG;
+    if (doc.exists) whatsappNumero = doc.data().whatsapp_numero || null;
   });
 }
 
@@ -126,6 +132,33 @@ document.getElementById('filtroCategoria').addEventListener('change', (e) => {
   filtroCategoria = e.target.value;
   renderInsumos();
 });
+
+// ---------------- WHATSAPP: configurar número y avisar stock bajo ----------------
+function toggleFormWhatsapp() {
+  const form = document.getElementById('formWhatsapp');
+  form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+  if (whatsappNumero) document.getElementById('inputWhatsapp').value = whatsappNumero;
+}
+
+document.getElementById('guardarWhatsapp').addEventListener('click', async () => {
+  const numero = document.getElementById('inputWhatsapp').value.replace(/\D/g, '');
+  if (numero.length < 10) { alert('Ingresa un número válido con indicativo de país (ej: 573001234567).'); return; }
+  await tenantRef.update({ whatsapp_numero: numero });
+  whatsappNumero = numero;
+  document.getElementById('formWhatsapp').style.display = 'none';
+  alert('Número de WhatsApp guardado.');
+});
+
+function avisarStockBajo(nombre, stockActual, unidad) {
+  if (!whatsappNumero) {
+    alert('Primero configura un número de WhatsApp con el botón "📲 Configurar WhatsApp".');
+    return;
+  }
+  const texto = encodeURIComponent(
+    `🌾 ArrozGestión - Stock bajo\n"${nombre}" tiene solo ${stockActual} ${unidad} disponibles.\nHay que reabastecer pronto.`
+  );
+  window.open(`https://wa.me/${whatsappNumero}?text=${texto}`, '_blank');
+}
 
 // ---------------- MODAL / CRUD ----------------
 function abrirModal(insumo = null) {
