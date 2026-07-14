@@ -1,0 +1,302 @@
+:root{
+  --verde-tallo: #1F4D36;
+  --verde-tallo-dark: #163826;
+  --dorado-grano: #C9A227;
+  --dorado-grano-light: #E4C860;
+  --tierra: #7A5230;
+  --marfil: #EEF0E7;
+  --marfil-alto: #F7F8F3;
+  --carbon: #22251F;
+  --carbon-suave: #565A4E;
+  --linea: #D8DBCC;
+  --rojo-alerta: #A6432E;
+  --azul-lluvia: #3B6EA5;
+  --radio: 10px;
+  --sombra: 0 2px 10px rgba(34,37,31,0.06);
+  --sombra-alta: 0 12px 32px rgba(34,37,31,0.14);
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  font-family:'Inter', sans-serif;
+  background:var(--marfil);
+  color:var(--carbon);
+  min-height:100vh;
+  display:flex;
+}
+
+/* ---------------- SIDEBAR ---------------- */
+.sidebar{
+  width:250px;
+  background:var(--verde-tallo-dark);
+  color:var(--marfil-alto);
+  padding:28px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  flex-shrink:0;
+  min-height:100vh;
+}
+.sidebar-brand{
+  font-family:'Roboto Slab', serif;
+  font-size:19px;
+  font-weight:600;
+  letter-spacing:0.3px;
+  margin-bottom:4px;
+}
+.sidebar-finca{
+  font-size:12px;
+  color:var(--dorado-grano-light);
+  margin-bottom:28px;
+  font-family:'IBM Plex Mono', monospace;
+}
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:500;
+  color:rgba(238,240,231,0.75);
+  text-decoration:none;
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+}
+.nav-item:hover{ background:rgba(238,240,231,0.08); color:var(--marfil-alto); }
+.nav-item.active{
+  background:var(--dorado-grano);
+  color:var(--verde-tallo-dark);
+  font-weight:600;
+}
+.nav-icon{ font-size:16px; width:18px; text-align:center; }
+.sidebar-footer{
+  margin-top:auto;
+  font-size:11px;
+  color:rgba(238,240,231,0.4);
+  padding-top:18px;
+  border-top:1px solid rgba(238,240,231,0.12);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.btn-logout{
+  background:none;
+  border:1px solid rgba(238,240,231,0.25);
+  color:rgba(238,240,231,0.75);
+  font-size:12px;
+  font-family:'Inter', sans-serif;
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  text-align:left;
+  transition:background .15s ease, color .15s ease;
+}
+.btn-logout:hover{
+  background:rgba(166,67,46,0.25);
+  color:#fff;
+  border-color:rgba(166,67,46,0.5);
+}
+
+/* ---------------- MAIN ---------------- */
+.main{ flex:1; padding:36px 44px; max-width:1240px; }
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:28px;
+  flex-wrap:wrap;
+  gap:16px;
+}
+
+.titulo-eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--tierra);
+  margin-bottom:6px;
+}
+
+h1{
+  font-family:'Roboto Slab', serif;
+  font-size:30px;
+  font-weight:600;
+  color:var(--verde-tallo-dark);
+}
+
+.btn{
+  font-family:'Inter', sans-serif;
+  font-size:13.5px;
+  font-weight:600;
+  padding:10px 18px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+}
+.btn-secundario{
+  background:transparent;
+  color:var(--verde-tallo-dark);
+  border:1.5px solid var(--linea);
+}
+.btn-secundario:hover{ border-color:var(--verde-tallo); }
+
+/* ---------------- UBICACIÓN ---------------- */
+.ubicacion-form{
+  display:none;
+  background:var(--marfil-alto);
+  border:1px solid var(--linea);
+  border-radius:var(--radio);
+  padding:18px 20px;
+  margin-bottom:24px;
+  gap:14px;
+  align-items:flex-end;
+  flex-wrap:wrap;
+}
+.ubicacion-form.abierto{ display:flex; }
+.ubicacion-form .campo{ flex:1; min-width:140px; }
+.ubicacion-form label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:var(--carbon-suave);
+  margin-bottom:5px;
+}
+.ubicacion-form input{
+  width:100%;
+  padding:9px 11px;
+  border:1.5px solid var(--linea);
+  border-radius:7px;
+  font-size:13.5px;
+}
+
+/* ---------------- PRONÓSTICO ---------------- */
+.pronostico-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
+  gap:12px;
+  margin-bottom:32px;
+}
+.dia-card{
+  background:var(--marfil-alto);
+  border:1px solid var(--linea);
+  border-radius:var(--radio);
+  padding:16px 12px;
+  text-align:center;
+  box-shadow:var(--sombra);
+}
+.dia-card.hoy{ border-color:var(--verde-tallo); border-width:2px; }
+.dia-nombre{
+  font-size:11.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  color:var(--carbon-suave);
+  letter-spacing:0.4px;
+}
+.dia-icono{ font-size:30px; margin:8px 0; }
+.dia-temp{
+  font-family:'Roboto Slab', serif;
+  font-size:16px;
+  font-weight:600;
+  color:var(--verde-tallo-dark);
+}
+.dia-temp-min{ color:var(--carbon-suave); font-weight:400; }
+.dia-lluvia{
+  font-size:11.5px;
+  color:var(--azul-lluvia);
+  margin-top:6px;
+  font-family:'IBM Plex Mono', monospace;
+}
+.dia-viento{
+  font-size:10.5px;
+  color:var(--carbon-suave);
+  margin-top:3px;
+}
+
+/* ---------------- SECCIÓN ---------------- */
+.seccion-titulo{
+  font-family:'Roboto Slab', serif;
+  font-size:18px;
+  font-weight:600;
+  color:var(--verde-tallo-dark);
+  margin-bottom:16px;
+}
+
+/* ---------------- RECOMENDACIONES GENERALES ---------------- */
+.recos-generales{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
+  margin-bottom:32px;
+}
+.reco-card{
+  background:var(--marfil-alto);
+  border:1px solid var(--linea);
+  border-radius:var(--radio);
+  padding:18px 20px;
+  border-left:4px solid var(--linea);
+}
+.reco-card.favorable{ border-left-color:var(--verde-tallo); }
+.reco-card.precaucion{ border-left-color:var(--dorado-grano); }
+.reco-card.desfavorable{ border-left-color:var(--rojo-alerta); }
+.reco-titulo{
+  font-size:13px;
+  font-weight:700;
+  color:var(--verde-tallo-dark);
+  margin-bottom:6px;
+}
+.reco-estado{
+  display:inline-block;
+  font-size:10.5px;
+  font-weight:700;
+  padding:2px 9px;
+  border-radius:20px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.reco-estado.favorable{ background:rgba(31,77,54,0.12); color:var(--verde-tallo); }
+.reco-estado.precaucion{ background:rgba(201,162,39,0.18); color:#8a6d10; }
+.reco-estado.desfavorable{ background:rgba(166,67,46,0.12); color:var(--rojo-alerta); }
+.reco-texto{ font-size:12.5px; color:var(--carbon-suave); line-height:1.5; }
+
+/* ---------------- ALERTAS POR LOTE ---------------- */
+.lotes-alertas{ display:flex; flex-direction:column; gap:12px; }
+.alerta-lote{
+  background:var(--marfil-alto);
+  border:1px solid var(--linea);
+  border-radius:var(--radio);
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.alerta-lote.riesgo{ border-color:rgba(166,67,46,0.4); background:rgba(166,67,46,0.04); }
+.alerta-lote-info{ flex:1; min-width:200px; }
+.alerta-lote-nombre{
+  font-family:'Roboto Slab', serif;
+  font-weight:600;
+  color:var(--verde-tallo-dark);
+  font-size:15px;
+}
+.alerta-lote-etapa{ font-size:12px; color:var(--carbon-suave); margin-top:2px; }
+.alerta-lote-mensaje{
+  font-size:13px;
+  color:var(--carbon);
+  max-width:420px;
+}
+.alerta-lote.riesgo .alerta-lote-mensaje{ color:var(--rojo-alerta); font-weight:500; }
+
+.vacio{ text-align:center; padding:40px 20px; color:var(--carbon-suave); }
+
+@media (max-width: 780px){
+  body{ flex-direction:column; }
+  .sidebar{ width:100%; min-height:auto; flex-direction:row; overflow-x:auto; }
+  .sidebar-footer{ display:none; }
+  .main{ padding:24px; }
+  .recos-generales{ grid-template-columns:1fr; }
+  .pronostico-grid{ grid-template-columns:repeat(4, 1fr); }
+}

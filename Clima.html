@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clima | Gestión de Cultivo de Arroz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="clima.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">🌾 ArrozGestión</div>
+    <div class="sidebar-finca" id="nombreFinca">Cargando finca...</div>
+
+    <a class="nav-item" href="lotes.html"><span class="nav-icon">▦</span> Lotes</a>
+    <a class="nav-item" href="labores.html"><span class="nav-icon">📋</span> Labores</a>
+    <a class="nav-item" href="insumos.html"><span class="nav-icon">🌱</span> Insumos</a>
+    <a class="nav-item" href="cosechas.html"><span class="nav-icon">📦</span> Cosechas</a>
+    <a class="nav-item active"><span class="nav-icon">🌦️</span> Clima</a>
+    <a class="nav-item" href="reportes.html"><span class="nav-icon">📊</span> Reportes</a>
+
+    <div class="sidebar-footer">
+      <div>v1.0 · Módulo de Clima</div>
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="titulo-eyebrow">Clima y condiciones de cultivo</div>
+        <h1>Clima</h1>
+        <div style="font-size:12.5px; color:var(--carbon-suave); margin-top:4px;" id="ubicacionTexto">Cargando ubicación...</div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secundario" onclick="toggleFormUbicacion()">📍 Cambiar ubicación</button>
+        <button class="btn btn-secundario" onclick="toggleFormWhatsapp()">📲 Configurar WhatsApp</button>
+      </div>
+    </div>
+
+    <div class="ubicacion-form" id="formWhatsapp">
+      <div class="campo" style="flex:2;">
+        <label>Número de WhatsApp (con indicativo de país, sin + ni espacios)</label>
+        <input type="text" id="inputWhatsapp" placeholder="Ej: 573001234567">
+      </div>
+      <button class="btn btn-secundario" id="guardarWhatsapp">Guardar</button>
+    </div>
+
+    <div class="ubicacion-form" id="formUbicacion">
+      <div class="campo">
+        <label>Latitud</label>
+        <input type="number" id="inputLat" step="0.0001" placeholder="Ej: 2.6890">
+      </div>
+      <div class="campo">
+        <label>Longitud</label>
+        <input type="number" id="inputLon" step="0.0001" placeholder="Ej: -75.3266">
+      </div>
+      <button class="btn btn-secundario" id="guardarUbicacion">Guardar</button>
+    </div>
+
+    <div class="pronostico-grid" id="pronosticoGrid">
+      <div class="vacio">Cargando pronóstico...</div>
+    </div>
+
+    <div class="seccion-titulo">Recomendaciones de hoy</div>
+    <div class="recos-generales" id="recosGenerales"></div>
+
+    <div class="seccion-titulo">Alertas por lote</div>
+    <div class="lotes-alertas" id="lotesAlertas"></div>
+    <div class="vacio" id="vacioLotes" style="display:none;">
+      No hay lotes activos para cruzar con el pronóstico. Registra un lote en el módulo de Lotes.
+    </div>
+  </main>
+
+  <!-- ============ FIREBASE ============ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- ============ LÓGICA DEL MÓDULO ============ -->
+  <script src="clima.js"></script>
+</body>
+</html>
