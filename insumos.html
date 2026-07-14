@@ -18,6 +18,7 @@
     <a class="nav-item" href="labores.html"><span class="nav-icon">📋</span> Labores</a>
     <a class="nav-item active"><span class="nav-icon">🌱</span> Insumos</a>
     <a class="nav-item" href="cosechas.html"><span class="nav-icon">📦</span> Cosechas</a>
+    <a class="nav-item" href="clima.html"><span class="nav-icon">🌦️</span> Clima</a>
     <a class="nav-item" href="reportes.html"><span class="nav-icon">📊</span> Reportes</a>
 
     <div class="sidebar-footer">
@@ -32,7 +33,15 @@
         <div class="titulo-eyebrow">Inventario</div>
         <h1>Insumos</h1>
       </div>
-      <button class="btn btn-primario" onclick="abrirModal()">+ Registrar insumo</button>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secundario" onclick="toggleFormWhatsapp()">📲 Configurar WhatsApp</button>
+        <button class="btn btn-primario" onclick="abrirModal()">+ Registrar insumo</button>
+      </div>
+    </div>
+
+    <div class="filtros" id="formWhatsapp" style="display:none;">
+      <input type="text" id="inputWhatsapp" placeholder="Número con indicativo, ej: 573001234567" style="flex:1; padding:10px 14px; border:1.5px solid var(--linea); border-radius:7px;">
+      <button class="btn btn-secundario" id="guardarWhatsapp">Guardar número</button>
     </div>
 
     <div class="resumen">
